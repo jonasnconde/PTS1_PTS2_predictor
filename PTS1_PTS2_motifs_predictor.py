@@ -15,12 +15,12 @@ import numpy as np
 from Bio import Entrez
 
 # Add your folder directory.
-os.chdir('C:\\Users\\jonas\\OneDrive\\proteomaAna\\goodscripts')
+os.chdir('your_directory')
 
 # Add the name of your Excel file and the name of its sheet you are going to
 # use. IMPORTANT: your column for your accession numbers MUST be named
 # 'Accession' or otherwise you have to change it in the code.
-file = "table_1_tot-re_for_pandas.xlsx"
+file = "your_file.xlsx"
 sheet = "Sheet1"
 
 # Opening the Excel file and its sheet as a pandas dataframe.
@@ -32,7 +32,7 @@ table_subset = table.dropna(subset=['Accession'])
 
 # In order to enter NCBI database you have to identify yourself (enter your
 # email bellow).
-Entrez.email = 'jonasconde@biof.ufrj.br'
+Entrez.email = 'your_email'
 
 # Creating a function for getting the protein sequences from NCBI and adding it
 # to the dataframe.
