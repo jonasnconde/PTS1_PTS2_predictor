@@ -15,12 +15,12 @@ import numpy as np
 from Bio import Entrez
 
 # Add your folder directory.
-os.chdir('your_folder')
+os.chdir('C:\\Users\\jonas\\OneDrive\\proteomaAna\\goodscripts')
 
 # Add the name of your Excel file and the name of its sheet you are going to
 # use. IMPORTANT: your column for your accession numbers MUST be named
 # 'Accession' or otherwise you have to change it in the code.
-file = "your_excel_table.xlsx"
+file = "table_1_tot-re_for_pandas.xlsx"
 sheet = "Sheet1"
 
 # Opening the Excel file and its sheet as a pandas dataframe.
@@ -101,7 +101,12 @@ def find_glycosomal_motifs(dataframe, glyco_re, glyco_YN_list, glyco_seq_list):
             glyco_seq_list.append(np.nan)
         else:
             glyco_YN_list.append('YES')
-            glyco_seq_list.append(signal[0][0].upper())    
+            if len(signal[0][0]) == 3:
+                glyco_seq_list.append(signal[0][0].upper())
+            else:
+                glyco_seq_list.append(signal[0][2].upper() + signal[0][3].upper() +
+                                      signal[0][4].upper() + signal[0][5].upper() +
+                                            signal[0][6].upper())
     
 # Let's call the function for each glycosomal motif (PTS1, PTS2, SSL)
 find_glycosomal_motifs(table_subset, PTS1, PTS1_YN, PTS1_seq)
@@ -122,11 +127,11 @@ table_gly_subset = table_subset[(table_subset.PTS1 == 'YES') | (table_subset.PTS
                                 (table_subset.SSL == 'YES')]
 
 # Creating the Excel writer using XlsxWriter engine.    
-writer = pd.ExcelWriter('glycosomal_proteins.xlsx', engine = 'xlsxwriter')
+writer = pd.ExcelWriter('PTS_proteins.xlsx', engine = 'xlsxwriter')
 
 # Converting the dataframe to an XlsxWriter Excel object.
 table_subset.to_excel(writer, sheet_name='Main_table')
-table_gly_subset.to_excel(writer, sheet_name='Only_glyc_ptns')
+table_gly_subset.to_excel(writer, sheet_name='Only_PTS_ptns')
 
 # Closing the Pandas Excel writer and output the Excel file.
 writer.save()
